@@ -1,5 +1,6 @@
 package fr.loick.tm;
 
+import fr.loick.tm.converter.TransExporter;
 import fr.loick.tm.export.CSVExporter;
 import fr.loick.tm.fetch.QueryImporter;
 import fr.loick.tm.fetch.TweetFetcher;
@@ -17,6 +18,7 @@ public class TweetMiner {
         TweetFetcher tf = new TweetFetcher(Configure.getTwitter());
         //tf.addExporter(new ConsoleExporter());
         tf.addExporter(new CSVExporter(new File("tweets_" + new Date() + ".csv")));
+        tf.addExporter(new TransExporter(new File("tweets_" + new Date() + ".trans")));
 
         QueryImporter importer = new QueryImporter(new String[]{"#DIY", "#4chan", "#couscous", "#tajine", "#jesuischarlie", "#hollande", "#swag", "#wtf", "#valls", "#dsk", "#ps", "#fn", "#ump", "#syrie", "#yolo"});
         int nbTweets = 0;
@@ -26,10 +28,12 @@ public class TweetMiner {
                 System.out.println("Nombre de tweets : " + nbTweets);
                 Thread.sleep(1500);
             } catch (TwitterException e) {
-                System.out.println("Error : " + e.getErrorMessage());
-                int time = e.getRateLimitStatus().getSecondsUntilReset();
-                System.out.println("Retry in " + time + "s");
-                Thread.sleep(time * 1000);
+                if(e.getRateLimitStatus().getSecondsUntilReset() > 0) {
+                    System.out.println("Error : " + e.getErrorMessage());
+                    int time = e.getRateLimitStatus().getSecondsUntilReset();
+                    System.out.println("Retry in " + time + "s");
+                    Thread.sleep(time * 1000);
+                }
             }
         }
     }
