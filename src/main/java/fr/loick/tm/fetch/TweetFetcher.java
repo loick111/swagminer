@@ -37,8 +37,8 @@ public class TweetFetcher {
         for (Status status : importer.importStatus(twitter)) {
             for (Exporter exporter : exporters) {
                 exporter.export(status);
-                ++nbTweets;
             }
+            ++nbTweets;
         }
         return nbTweets;
     }
