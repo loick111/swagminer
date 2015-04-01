@@ -1,3 +1,5 @@
+package converter;
+
 import fr.loick.tm.Configure;
 import fr.loick.tm.converter.MapConverter;
 import fr.loick.tm.converter.TransExporter;
@@ -15,9 +17,9 @@ import java.util.Date;
  * Created by loic on 01/04/15.
  */
 
-public class MapConvertTest {
+public class MapConverterTest {
     @Test
-    public void testMapConvert(){
+    public void testMapConvert() {
         TweetFetcher tf = new TweetFetcher(Configure.getTwitter());
         //tf.addExporter(new ConsoleExporter());
         try {
@@ -26,19 +28,19 @@ public class MapConvertTest {
 
             QueryImporter importer = new QueryImporter(new String[]{"#DIY", "#4chan", "#couscous", "#tajine", "#jesuischarlie", "#hollande", "#swag", "#wtf", "#valls", "#dsk", "#ps", "#fn", "#ump", "#syrie", "#yolo"});
             int nbTweets = 0;
-            while(nbTweets < 200) {
-                try{
+            while (nbTweets < 200) {
+                try {
                     nbTweets += tf.export(importer);
                     System.out.println("Nombre de tweets : " + nbTweets);
                     Thread.sleep(3000);
-                }catch(TwitterException e){
+                } catch (TwitterException e) {
                     System.out.println("Error : " + e.getErrorMessage());
                     int time = e.getRateLimitStatus().getSecondsUntilReset();
                     System.out.println("Retry in " + time + "s");
                     Thread.sleep(time * 1000);
                 }
             }
-            MapConverter a = new MapConverter(((TransExporter)exporter).getAssociation(),new File("test.txt"));
+            MapConverter a = new MapConverter(((TransExporter) exporter).getAssociation(), new File("test.txt"));
             a.convert();
         } catch (InterruptedException e1) {
             e1.printStackTrace();

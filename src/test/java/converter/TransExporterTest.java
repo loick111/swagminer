@@ -1,4 +1,4 @@
-/**
+package converter; /**
  * Created by loic on 01/04/15.
  */
 
@@ -13,27 +13,21 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
-import static org.junit.Assert.assertThat;
-import static org.junit.matchers.JUnitMatchers.both;
-import static org.junit.matchers.JUnitMatchers.containsString;
-import static org.junit.matchers.JUnitMatchers.everyItem;
-import static org.junit.matchers.JUnitMatchers.hasItems;
-
-public class TransTest {
+public class TransExporterTest {
     @Test
-    public void testTrans(){
+    public void testTrans() {
         TweetFetcher tf = new TweetFetcher(Configure.getTwitter());
         //tf.addExporter(new ConsoleExporter());
         try {
             tf.addExporter(new TransExporter(new File("tweets_" + new Date() + ".trans")));
             QueryImporter importer = new QueryImporter(new String[]{"#DIY", "#4chan", "#couscous", "#tajine", "#jesuischarlie", "#hollande", "#swag", "#wtf", "#valls", "#dsk", "#ps", "#fn", "#ump", "#syrie", "#yolo"});
             int nbTweets = 0;
-            while(nbTweets < 2000) {
-                try{
+            while (nbTweets < 2000) {
+                try {
                     nbTweets += tf.export(importer);
                     System.out.println("Nombre de tweets : " + nbTweets);
                     Thread.sleep(3000);
-                }catch(TwitterException e){
+                } catch (TwitterException e) {
                     System.out.println("Error : " + e.getErrorMessage());
                     int time = e.getRateLimitStatus().getSecondsUntilReset();
                     System.out.println("Retry in " + time + "s");
