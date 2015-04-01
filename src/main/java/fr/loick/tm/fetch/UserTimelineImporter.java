@@ -14,7 +14,7 @@ import twitter4j.TwitterException;
  *
  * @author q13000412
  */
-public class TimelineImporter implements TwitterImporter{
+public class UserTimelineImporter implements TwitterImporter{
 
     @Override
     public Collection<Status> importStatus(Twitter twitter) throws TwitterException {
