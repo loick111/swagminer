@@ -114,7 +114,7 @@ final public class Strings {
         return str.substring(start, end + 1);
     }
     
-    final static public char[] TRIM_CHARS = {'.', ':', '!', ',', ';', '?', ' ', '\t', '\n', '\r'};
+    final static public char[] TRIM_CHARS = {'.', ':', '!', ',', ';', '?', ' ', '\t', '\n', '\r', '-'};
     
     static public String trim(String str){
         return trim(str, TRIM_CHARS);
