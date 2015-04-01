@@ -120,18 +120,21 @@ final public class Strings {
         return trim(str, TRIM_CHARS);
     }
     
-    static public String[] getWords(String line, char[] blacklist){
+    static public String[] getWords(String line, char[] blacklist, int minSize){
         String[] s = split(line, " ");
         Collection<String> words = new ArrayList<>(s.length);
         
         for(String word : s){
-            words.add(trim(word, blacklist));
+            word = trim(word, blacklist);
+            
+            if(word.length() >= minSize)
+                words.add(word);
         }
         
         return words.toArray(new String[]{});
     }
     
     static public String[] getWords(String line){
-        return getWords(line, TRIM_CHARS);
+        return getWords(line, TRIM_CHARS, 1);
     }
 }
