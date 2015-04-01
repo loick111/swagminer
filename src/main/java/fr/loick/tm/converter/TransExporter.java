@@ -51,7 +51,12 @@ public class TransExporter implements Exporter {
 
     }
 
+    public Map<String, Integer> getAssociation() {
+        return association;
+    }
+
     @Override
+
     public void endExport() {
         try {
             bw.close();
@@ -60,3 +65,4 @@ public class TransExporter implements Exporter {
         }
     }
 }
+
