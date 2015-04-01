@@ -32,7 +32,7 @@ public class MapConverterTest {
                 try {
                     nbTweets += tf.export(importer);
                     System.out.println("Nombre de tweets : " + nbTweets);
-                    Thread.sleep(1000);
+                    Thread.sleep(1500);
                 } catch (TwitterException e) {
                     System.out.println("Error : " + e.getErrorMessage());
                     int time = e.getRateLimitStatus().getSecondsUntilReset();
