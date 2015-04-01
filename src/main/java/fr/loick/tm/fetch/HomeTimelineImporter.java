@@ -10,7 +10,7 @@ import java.util.Collection;
 /**
  * Created by loick on 01/04/15.
  */
-public class HomeTimelineImporter implements TwitterImporter{
+public class HomeTimelineImporter implements TwitterImporter {
     final int nbPages;
 
     public HomeTimelineImporter(int nbPages) {

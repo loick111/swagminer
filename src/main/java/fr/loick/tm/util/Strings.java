@@ -9,19 +9,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- *
  * @author q13000412
  */
 final public class Strings {
-    
-    private Strings(){}
+
+    final static public char[] TRIM_CHARS = {'.', ':', '!', ',', ';', '?', ' ', '\t', '\n', '\r', '-'};
+
+    private Strings() {
+    }
 
     /**
      * Explore a string to an array, using a delimiter
      *
-     * @param str String to split
+     * @param str       String to split
      * @param delimiter separator
-     * @param limit the max number of pieces
+     * @param limit     the max number of pieces
      * @return The array containing all pieces
      */
     public static String[] split(String str, String delimiter, int limit) {
@@ -42,7 +44,7 @@ final public class Strings {
     /**
      * Explore a string to an array, using a delimiter
      *
-     * @param str String to split
+     * @param str       String to split
      * @param delimiter separator
      * @return The array containing all pieces
      */
@@ -53,7 +55,7 @@ final public class Strings {
     /**
      * Concact all pieces in a string, separed with separator
      *
-     * @param pieces pieces to join
+     * @param pieces    pieces to join
      * @param separator separator of each pieces
      * @return the concact string
      */
@@ -67,74 +69,72 @@ final public class Strings {
         }
         return str.toString();
     }
-    
-    static String trim(String str, char[] trimChars){
+
+    static String trim(String str, char[] trimChars) {
         int start = 0;
-        
-        while(start < str.length()){
+
+        while (start < str.length()) {
             char c = str.charAt(start);
-            
+
             boolean found = false;
-            
-            for(int i = 0; i < trimChars.length; ++i){
-                if(c == trimChars[i]){
+
+            for (int i = 0; i < trimChars.length; ++i) {
+                if (c == trimChars[i]) {
                     found = true;
                     break;
                 }
             }
-            
-            if(found){
+
+            if (found) {
                 ++start;
-            }else{
+            } else {
                 break;
             }
         }
-        
+
         int end = str.length() - 1;
-        
-        while(end > start){
+
+        while (end > start) {
             char c = str.charAt(end);
-            
+
             boolean found = false;
-            
-            for(int i = 0; i < trimChars.length; ++i){
-                if(c == trimChars[i]){
+
+            for (int i = 0; i < trimChars.length; ++i) {
+                if (c == trimChars[i]) {
                     found = true;
                     break;
                 }
             }
-            
-            if(found){
+
+            if (found) {
                 --end;
-            }else{
+            } else {
                 break;
             }
         }
-        
+
         return str.substring(start, end + 1);
     }
-    
-    final static public char[] TRIM_CHARS = {'.', ':', '!', ',', ';', '?', ' ', '\t', '\n', '\r', '-'};
-    
-    static public String trim(String str){
+
+    static public String trim(String str) {
         return trim(str, TRIM_CHARS);
     }
-    
-    static public String[] getWords(String line, char[] blacklist, int minSize){
+
+    static public String[] getWords(String line, char[] blacklist, int minSize) {
         String[] array = line.split("\\s+");
         Collection<String> words = new ArrayList<>(array.length);
-        
-        for(String word : array){
+
+        for (String word : array) {
             word = trim(word, blacklist);
-            
-            if(word.length() >= minSize)
+
+            if (word.length() >= minSize)
                 words.add(word);
         }
-        
+
         return words.toArray(new String[]{});
     }
-    
-    static public String[] getWords(String line){
+
+    static public String[] getWords(String line) {
         return getWords(line, TRIM_CHARS, 1);
     }
 }

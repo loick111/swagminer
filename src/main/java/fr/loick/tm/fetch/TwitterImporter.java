@@ -5,13 +5,13 @@
  */
 package fr.loick.tm.fetch;
 
-import java.util.Collection;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
+import java.util.Collection;
+
 /**
- *
  * @author q13000412
  */
 public interface TwitterImporter {

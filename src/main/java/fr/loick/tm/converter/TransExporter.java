@@ -20,26 +20,26 @@ public class TransExporter implements Exporter {
 
     final private File file;
     final private BufferedWriter bw;
-    final private Map<String,Integer> association;
+    final private Map<String, Integer> association;
     private Integer id = 0;
 
     public TransExporter(File file) throws IOException {
         this.file = file;
         bw = new BufferedWriter(new FileWriter(file));
-        association  = new HashMap<>();
+        association = new HashMap<>();
     }
 
     @Override
     public void export(Status status) {
         Integer id_curr;
         try {
-            for (String s : (CSV.parse(CSV.stringify(status))).getWords()){
-                if ((id_curr = association.get(s)) == null){
-                    association.put(s,id);
-                    bw.write(id+" ");
+            for (String s : (CSV.parse(CSV.stringify(status))).getWords()) {
+                if ((id_curr = association.get(s)) == null) {
+                    association.put(s, id);
+                    bw.write(id + " ");
                     id++;
-                }else{
-                    bw.write(id_curr+" ");
+                } else {
+                    bw.write(id_curr + " ");
                 }
             }
 

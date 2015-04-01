@@ -8,10 +8,10 @@ package fr.loick.tm.export;
 import twitter4j.Status;
 
 /**
- *
  * @author q13000412
  */
 public interface Exporter {
     public void export(Status status);
+
     public void endExport();
 }

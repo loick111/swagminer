@@ -7,8 +7,8 @@ import java.util.Map;
  * Created by p13005682 on 01/04/15.
  */
 public class MapConverter implements Serializable {
-    private Map<String,Integer> map;
     BufferedWriter bw;
+    private Map<String, Integer> map;
 
     public MapConverter(Map<String, Integer> map, File file) {
 
@@ -20,10 +20,10 @@ public class MapConverter implements Serializable {
         }
     }
 
-    public void convert(){
+    public void convert() {
         try {
 
-            for (Map.Entry<String,Integer> entry : map.entrySet()){
+            for (Map.Entry<String, Integer> entry : map.entrySet()) {
 
                 bw.write(entry.getValue() + ";" + entry.getKey());
                 bw.newLine();
@@ -37,8 +37,6 @@ public class MapConverter implements Serializable {
             e.printStackTrace();
         }
     }
-
-
 
 
 }

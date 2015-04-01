@@ -6,14 +6,12 @@
 package fr.loick.tm.export;
 
 import fr.loick.tm.util.CSV;
-import fr.loick.tm.util.Strings;
 import twitter4j.Status;
 
 /**
- *
  * @author q13000412
  */
-public class ConsoleExporter implements Exporter{
+public class ConsoleExporter implements Exporter {
 
     @Override
     public void export(Status status) {
@@ -21,6 +19,7 @@ public class ConsoleExporter implements Exporter{
     }
 
     @Override
-    public void endExport() {}
-    
+    public void endExport() {
+    }
+
 }

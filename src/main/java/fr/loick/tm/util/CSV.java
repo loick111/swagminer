@@ -6,18 +6,29 @@ import twitter4j.Status;
  * Created by loick on 01/04/15.
  */
 final public class CSV {
-    private CSV() {}
+    private CSV() {
+    }
 
     public static String stringify(Status s) {
-        return Strings.join(new String[] {
+        return Strings.join(new String[]{
                 String.valueOf(s.getCreatedAt()),
                 s.getUser().getScreenName(),
                 s.getUser().getLocation(),
                 Strings.join(Strings.getWords(s.getText()), ",")
         }, ";");
     }
-    
-    static public class TweetData{
+
+    static public TweetData parse(String csv) {
+        String[] data = Strings.split(csv, ";");
+        return new TweetData(
+                data[0],
+                data[1],
+                data[2],
+                Strings.split(data[3], ",")
+        );
+    }
+
+    static public class TweetData {
         final private String date;
         final private String user;
         final private String location;
@@ -45,15 +56,5 @@ final public class CSV {
         public String[] getWords() {
             return words;
         }
-    }
-    
-    static public TweetData parse(String csv){
-        String[] data = Strings.split(csv, ";");
-        return new TweetData(
-            data[0], 
-            data[1], 
-            data[2], 
-            Strings.split(data[3], ",")
-        );
     }
 }

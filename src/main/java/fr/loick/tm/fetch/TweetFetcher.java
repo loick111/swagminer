@@ -6,14 +6,14 @@
 package fr.loick.tm.fetch;
 
 import fr.loick.tm.export.Exporter;
-import java.util.ArrayList;
-import java.util.Collection;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 /**
- *
  * @author q13000412
  */
 public class TweetFetcher {
@@ -23,18 +23,18 @@ public class TweetFetcher {
     public TweetFetcher(Twitter twitter) {
         this.twitter = twitter;
     }
-    
-    public void addExporter(Exporter exporter){
+
+    public void addExporter(Exporter exporter) {
         exporters.add(exporter);
     }
-    
-    public void removeExporter(Exporter exporter){
+
+    public void removeExporter(Exporter exporter) {
         exporters.remove(exporter);
     }
-    
-    public int export(TwitterImporter importer) throws TwitterException{
+
+    public int export(TwitterImporter importer) throws TwitterException {
         int nbTweets = 0;
-        for(Status status : importer.importStatus(twitter)){
+        for (Status status : importer.importStatus(twitter)) {
             for (Exporter exporter : exporters) {
                 exporter.export(status);
                 ++nbTweets;

@@ -6,19 +6,19 @@
 package fr.loick.tm.export;
 
 import fr.loick.tm.util.CSV;
+import twitter4j.Status;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import twitter4j.Status;
 
 /**
- *
  * @author q13000412
  */
-public class CSVExporter implements Exporter{
+public class CSVExporter implements Exporter {
     final private File file;
     final private BufferedWriter bw;
 
@@ -29,7 +29,7 @@ public class CSVExporter implements Exporter{
 
     @Override
     public void export(Status status) {
-        try{
+        try {
             bw.write(CSV.stringify(status));
             bw.newLine();
             bw.flush();
@@ -46,5 +46,5 @@ public class CSVExporter implements Exporter{
             Logger.getLogger(CSVExporter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }
