@@ -121,10 +121,10 @@ final public class Strings {
     }
     
     static public String[] getWords(String line, char[] blacklist, int minSize){
-        String[] s = split(line, " ");
-        Collection<String> words = new ArrayList<>(s.length);
+        String[] array = line.split("\\s+");
+        Collection<String> words = new ArrayList<>(array.length);
         
-        for(String word : s){
+        for(String word : array){
             word = trim(word, blacklist);
             
             if(word.length() >= minSize)

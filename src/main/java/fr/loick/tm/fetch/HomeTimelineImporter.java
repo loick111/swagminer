@@ -19,6 +19,6 @@ public class HomeTimelineImporter implements TwitterImporter{
 
     @Override
     public Collection<Status> importStatus(Twitter twitter) throws TwitterException {
-        return twitter.getHomeTimeline(new Paging(nbPages));
+        return twitter.getHomeTimeline(new Paging(nbPages, 100));
     }
 }

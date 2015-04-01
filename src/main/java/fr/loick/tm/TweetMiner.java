@@ -17,11 +17,14 @@ public class TweetMiner {
         System.out.println("Hello world !");
         
         TweetFetcher tf = new TweetFetcher(Configure.getTwitter());
-        tf.addExporter(new ConsoleExporter());
+        //tf.addExporter(new ConsoleExporter());
         tf.addExporter(new CSVExporter(new File("tweets_" + new Date() + ".csv")));
-        for(int i=1; i<10; ++i) {
-            tf.export(new HomeTimelineImporter(i));
-            Thread.sleep(500);
+        
+        int nbTweets = 0;
+        for(int i = 1; nbTweets < 20000; ++i) {
+            nbTweets += tf.export(new HomeTimelineImporter(i));
+            System.out.println("Nombre de tweets : " + nbTweets);
+            Thread.sleep(3000);
         }
     }
 }

@@ -32,11 +32,14 @@ public class TweetFetcher {
         exporters.remove(exporter);
     }
     
-    public void export(TwitterImporter importer) throws TwitterException{
+    public int export(TwitterImporter importer) throws TwitterException{
+        int nbTweets = 0;
         for(Status status : importer.importStatus(twitter)){
             for (Exporter exporter : exporters) {
                 exporter.export(status);
+                ++nbTweets;
             }
         }
+        return nbTweets;
     }
 }
