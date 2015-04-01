@@ -16,4 +16,44 @@ final public class CSV {
                 Strings.join(Strings.getWords(s.getText()), ",")
         }, ";");
     }
+    
+    static public class TweetData{
+        final private String date;
+        final private String user;
+        final private String location;
+        final private String[] words;
+
+        public TweetData(String date, String user, String location, String[] words) {
+            this.date = date;
+            this.user = user;
+            this.location = location;
+            this.words = words;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public String getUser() {
+            return user;
+        }
+
+        public String getLocation() {
+            return location;
+        }
+
+        public String[] getWords() {
+            return words;
+        }
+    }
+    
+    static public TweetData parse(String csv){
+        String[] data = Strings.split(csv, ";");
+        return new TweetData(
+            data[0], 
+            data[1], 
+            data[2], 
+            Strings.split(data[3], ",")
+        );
+    }
 }
