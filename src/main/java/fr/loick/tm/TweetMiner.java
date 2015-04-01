@@ -20,10 +20,12 @@ public class TweetMiner {
         tf.addExporter(new CSVExporter(new File("tweets_" + new Date() + ".csv")));
         
         int nbTweets = 0;
-        for(int i = 1; nbTweets < 20000; ++i) {
+        int page = 1;
+        while(nbTweets < 20000) {
             try{
-                nbTweets += tf.export(new HomeTimelineImporter(i));
+                nbTweets += tf.export(new HomeTimelineImporter(page));
                 System.out.println("Nombre de tweets : " + nbTweets);
+                ++page;
                 Thread.sleep(3000);
             }catch(TwitterException e){
                 System.out.println("Error : " + e.getErrorMessage());
