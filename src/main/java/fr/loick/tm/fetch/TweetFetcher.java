@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.loick.tm;
+package fr.loick.tm.fetch;
 
 import fr.loick.tm.export.Exporter;
 import java.util.ArrayList;
@@ -32,8 +32,8 @@ public class TweetFetcher {
         exporters.remove(exporter);
     }
     
-    public void export() throws TwitterException{
-        for(Status status : twitter.getHomeTimeline()){
+    public void export(TwitterImporter importer) throws TwitterException{
+        for(Status status : importer.importStatus(twitter)){
             for (Exporter exporter : exporters) {
                 exporter.export(status);
             }

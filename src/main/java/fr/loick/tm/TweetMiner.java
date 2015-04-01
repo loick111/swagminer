@@ -1,7 +1,8 @@
 package fr.loick.tm;
 
+import fr.loick.tm.fetch.TweetFetcher;
 import fr.loick.tm.export.ConsoleExporter;
-import fr.loick.tm.util.Strings;
+import fr.loick.tm.fetch.TimelineImporter;
 import twitter4j.TwitterException;
 
 /**
@@ -13,6 +14,6 @@ public class TweetMiner {
         
         TweetFetcher tf = new TweetFetcher(Configure.getTwitter());
         tf.addExporter(new ConsoleExporter());
-        tf.export();
+        tf.export(new TimelineImporter());
     }
 }
