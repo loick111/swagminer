@@ -120,7 +120,7 @@ final public class Strings {
         return trim(str, TRIM_CHARS);
     }
     
-    static public Collection<String> getWords(String line, char[] blacklist){
+    static public String[] getWords(String line, char[] blacklist){
         String[] s = split(line, " ");
         Collection<String> words = new ArrayList<>(s.length);
         
@@ -128,10 +128,10 @@ final public class Strings {
             words.add(trim(word, blacklist));
         }
         
-        return words;
+        return words.toArray(new String[]{});
     }
     
-    static public Collection<String> getWords(String line){
+    static public String[] getWords(String line){
         return getWords(line, TRIM_CHARS);
     }
 }
