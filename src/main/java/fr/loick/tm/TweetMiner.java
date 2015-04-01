@@ -3,7 +3,6 @@ package fr.loick.tm;
 import fr.loick.tm.export.CSVExporter;
 import fr.loick.tm.fetch.HomeTimelineImporter;
 import fr.loick.tm.fetch.TweetFetcher;
-import fr.loick.tm.export.ConsoleExporter;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
@@ -22,9 +21,16 @@ public class TweetMiner {
         
         int nbTweets = 0;
         for(int i = 1; nbTweets < 20000; ++i) {
-            nbTweets += tf.export(new HomeTimelineImporter(i));
-            System.out.println("Nombre de tweets : " + nbTweets);
-            Thread.sleep(3000);
+            try{
+                nbTweets += tf.export(new HomeTimelineImporter(i));
+                System.out.println("Nombre de tweets : " + nbTweets);
+                Thread.sleep(3000);
+            }catch(TwitterException e){
+                System.out.println("Error : " + e.getErrorMessage());
+                int time = e.getRateLimitStatus().getSecondsUntilReset() * 1000;
+                System.out.println("Retry in " + time + "s");
+                Thread.sleep(time);
+            }
         }
     }
 }
