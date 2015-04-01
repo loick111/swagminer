@@ -14,13 +14,11 @@ import twitter4j.TwitterException;
  */
 public class TweetMiner {
     public static void main(String[] args) throws TwitterException, InterruptedException, IOException {
-        System.out.println("Hello world !");
-        
         TweetFetcher tf = new TweetFetcher(Configure.getTwitter());
         //tf.addExporter(new ConsoleExporter());
         tf.addExporter(new CSVExporter(new File("tweets_" + new Date() + ".csv")));
         
-        QueryImporter importer = new QueryImporter("#4chan");
+        QueryImporter importer = new QueryImporter(new String[]{"#DIY", "#4chan", "#couscous", "#tajine", "#jesuischarlie", "#hollande", "#swag", "#wtf", "#valls", "#dsk", "#ps", "#fn", "#ump", "#syrie", "#yolo"});
         int nbTweets = 0;
         while(nbTweets < 20000) {
             try{
