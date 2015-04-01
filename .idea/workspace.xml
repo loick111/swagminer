@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3124a2c8-7e7a-492e-9f68-14a0e7b23c23" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="swagminer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -617,12 +617,12 @@
       <updated>1427890180010</updated>
       <workItem from="1427890182919" duration="121000" />
       <workItem from="1427892992920" duration="3472000" />
-      <workItem from="1427897244714" duration="3769000" />
+      <workItem from="1427897244714" duration="3806000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7362000" />
+    <option name="totallyTimeSpent" value="7399000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="18" width="1680" height="1032" extended-state="0" />
