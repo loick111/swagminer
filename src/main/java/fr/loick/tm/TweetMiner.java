@@ -1,6 +1,7 @@
 package fr.loick.tm;
 
 import fr.loick.tm.export.ConsoleExporter;
+import fr.loick.tm.util.Strings;
 import twitter4j.TwitterException;
 
 /**

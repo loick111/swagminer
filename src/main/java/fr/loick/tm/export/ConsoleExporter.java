@@ -5,6 +5,7 @@
  */
 package fr.loick.tm.export;
 
+import fr.loick.tm.util.Strings;
 import twitter4j.Status;
 
 /**
@@ -15,7 +16,7 @@ public class ConsoleExporter implements Exporter{
 
     @Override
     public void export(Status status) {
-        System.out.println(status);
+        System.out.println(status.getCreatedAt() + ";" + status.getGeoLocation() + ";" + status.getUser() + ";" + Strings.getWords(status.getText()));
     }
 
     @Override
