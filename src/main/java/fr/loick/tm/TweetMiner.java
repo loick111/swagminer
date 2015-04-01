@@ -27,9 +27,9 @@ public class TweetMiner {
                 Thread.sleep(3000);
             }catch(TwitterException e){
                 System.out.println("Error : " + e.getErrorMessage());
-                int time = e.getRateLimitStatus().getSecondsUntilReset() * 1000;
+                int time = e.getRateLimitStatus().getSecondsUntilReset();
                 System.out.println("Retry in " + time + "s");
-                Thread.sleep(time);
+                Thread.sleep(time * 1000);
             }
         }
     }
