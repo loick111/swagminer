@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="swagminer">
+    <output-path>$PROJECT_DIR$/out/artifacts/swagminer</output-path>
+    <root id="archive" name="swagminer.jar">
+      <element id="module-output" name="swagminer" />
+      <element id="library" level="project" name="Maven: org.twitter4j:twitter4j-core:4.0.3" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>

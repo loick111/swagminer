@@ -10,11 +10,14 @@ import twitter4j.TwitterException;
  * Created by loick on 01/04/15.
  */
 public class TweetMiner {
-    public static void main(String[] args) throws TwitterException {
+    public static void main(String[] args) throws TwitterException, InterruptedException {
         System.out.println("Hello world !");
         
         TweetFetcher tf = new TweetFetcher(Configure.getTwitter());
         tf.addExporter(new ConsoleExporter());
-        tf.export(new HomeTimelineImporter(20));
+        for(int i=1; i<100; ++i) {
+            tf.export(new HomeTimelineImporter(i));
+            Thread.sleep(500);
+        }
     }
 }
