@@ -20,13 +20,13 @@ public class TweetMiner {
         tf.addExporter(new CSVExporter(new File("tweets_" + new Date() + ".csv")));
         tf.addExporter(new TransExporter(new File("tweets_" + new Date() + ".trans")));
 
-        QueryImporter importer = new QueryImporter(new String[]{"#DIY", "#4chan", "#couscous", "#tajine", "#jesuischarlie", "#hollande", "#swag", "#wtf", "#valls", "#dsk", "#ps", "#fn", "#ump", "#syrie", "#yolo"});
+        QueryImporter importer = new QueryImporter(new String[]{"#4chan", "#couscous", "#tajine", "#jesuischarlie", "#hollande", "#swag", "#wtf", "#valls", "#dsk", "#ps", "#fn", "#ump", "#syrie", "#yolo"});
         int nbTweets = 0;
         while (nbTweets < 1000000) {
             try {
                 nbTweets += tf.export(importer);
                 System.out.println("Nombre de tweets : " + nbTweets);
-                Thread.sleep(1500);
+                Thread.sleep(3000);
             } catch (TwitterException e) {
                 if(e.getRateLimitStatus().getSecondsUntilReset() > 0) {
                     System.out.println("Error : " + e.getErrorMessage());

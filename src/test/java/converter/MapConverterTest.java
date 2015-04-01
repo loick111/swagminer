@@ -32,12 +32,14 @@ public class MapConverterTest {
                 try {
                     nbTweets += tf.export(importer);
                     System.out.println("Nombre de tweets : " + nbTweets);
-                    Thread.sleep(1500);
+                    Thread.sleep(3000);
                 } catch (TwitterException e) {
-                    System.out.println("Error : " + e.getErrorMessage());
-                    int time = e.getRateLimitStatus().getSecondsUntilReset();
-                    System.out.println("Retry in " + time + "s");
-                    Thread.sleep(time * 1000);
+                    if(e.getRateLimitStatus().getSecondsUntilReset() > 0) {
+                        System.out.println("Error : " + e.getErrorMessage());
+                        int time = e.getRateLimitStatus().getSecondsUntilReset();
+                        System.out.println("Retry in " + time + "s");
+                        Thread.sleep(time * 1000);
+                    }
                 }
             }
             MapConverter a = new MapConverter(((TransExporter) exporter).getAssociation(), new File("test.txt"));
