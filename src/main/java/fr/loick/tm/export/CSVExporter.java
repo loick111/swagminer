@@ -5,6 +5,7 @@
  */
 package fr.loick.tm.export;
 
+import fr.loick.tm.util.CSV;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -23,16 +24,15 @@ public class CSVExporter implements Exporter{
 
     public CSVExporter(File file) throws IOException {
         this.file = file;
-        file.delete();
         bw = new BufferedWriter(new FileWriter(file));
     }
 
     @Override
     public void export(Status status) {
-        try {
-            //TODO
-            bw.write("...");
+        try{
+            bw.write(CSV.stringify(status));
             bw.newLine();
+            bw.flush();
         } catch (IOException ex) {
             Logger.getLogger(CSVExporter.class.getName()).log(Level.SEVERE, null, ex);
         }
