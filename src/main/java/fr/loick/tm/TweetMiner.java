@@ -2,6 +2,7 @@ package fr.loick.tm;
 
 import fr.loick.tm.export.CSVExporter;
 import fr.loick.tm.fetch.HomeTimelineImporter;
+import fr.loick.tm.fetch.QueryImporter;
 import fr.loick.tm.fetch.TweetFetcher;
 import java.io.File;
 import java.io.IOException;
@@ -19,13 +20,12 @@ public class TweetMiner {
         //tf.addExporter(new ConsoleExporter());
         tf.addExporter(new CSVExporter(new File("tweets_" + new Date() + ".csv")));
         
+        QueryImporter importer = new QueryImporter("#4chan");
         int nbTweets = 0;
-        int page = 1;
         while(nbTweets < 20000) {
             try{
-                nbTweets += tf.export(new HomeTimelineImporter(page));
+                nbTweets += tf.export(importer);
                 System.out.println("Nombre de tweets : " + nbTweets);
-                ++page;
                 Thread.sleep(3000);
             }catch(TwitterException e){
                 System.out.println("Error : " + e.getErrorMessage());
