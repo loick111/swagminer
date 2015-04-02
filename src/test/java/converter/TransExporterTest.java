@@ -3,7 +3,7 @@ package converter; /**
  */
 
 import fr.loick.tm.Configure;
-import fr.loick.tm.converter.TransExporter;
+import fr.loick.tm.export.TransExporter;
 import fr.loick.tm.fetch.QueryImporter;
 import fr.loick.tm.fetch.TweetFetcher;
 import org.junit.Test;
@@ -28,7 +28,7 @@ public class TransExporterTest {
                     System.out.println("Nombre de tweets : " + nbTweets);
                     Thread.sleep(3000);
                 } catch (TwitterException e) {
-                    if(e.getRateLimitStatus().getSecondsUntilReset() > 0) {
+                    if (e.getRateLimitStatus().getSecondsUntilReset() > 0) {
                         System.out.println("Error : " + e.getErrorMessage());
                         int time = e.getRateLimitStatus().getSecondsUntilReset();
                         System.out.println("Retry in " + time + "s");

@@ -1,6 +1,5 @@
-package fr.loick.tm.converter;
+package fr.loick.tm.export;
 
-import fr.loick.tm.export.Exporter;
 import fr.loick.tm.util.CSV;
 import twitter4j.Status;
 
