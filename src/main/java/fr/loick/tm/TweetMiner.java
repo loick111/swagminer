@@ -1,21 +1,19 @@
 package fr.loick.tm;
 
-import fr.loick.tm.export.CSVExporter;
-import fr.loick.tm.export.TransExporter;
-import fr.loick.tm.fetch.QueryImporter;
-import fr.loick.tm.fetch.TweetFetcher;
+import fr.loick.tm.apriori.APriori;
+import fr.loick.tm.apriori.TransDB;
 import twitter4j.TwitterException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by loick on 01/04/15.
  */
 public class TweetMiner {
     public static void main(String[] args) throws TwitterException, InterruptedException, IOException {
-        TweetFetcher tf = new TweetFetcher(Configure.getTwitter());
+        /*TweetFetcher tf = new TweetFetcher(Configure.getTwitter());
         //tf.addExporter(new ConsoleExporter());
         tf.addExporter(new CSVExporter(new File("tweets_" + new Date() + ".csv")));
         tf.addExporter(new TransExporter(new File("tweets_" + new Date() + ".trans")));
@@ -35,6 +33,21 @@ public class TweetMiner {
                     Thread.sleep(time * 1000);
                 }
             }
-        }
+        }*/
+        
+        TransDB db = new TransDB(new File("tweets_Wed Apr 01 21:48:48 CEST 2015.trans"));
+        APriori<Integer> algo = new APriori<>(db, 3420, (Integer o1, Integer o2) -> {
+            if(o1 == null)
+                return -1;
+            
+            if(o2 == null)
+                return 1;
+            
+            return o1 - o2;
+        });
+        algo.addExporter((Set<Integer> row, int effective) -> {
+            System.out.println(row + " => " + effective);
+        });
+        algo.perform();
     }
 }
