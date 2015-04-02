@@ -1,4 +1,4 @@
-package converter; /**
+package java_converter;/**
  * Created by loic on 01/04/15.
  */
 
@@ -22,7 +22,7 @@ public class TransExporterTest {
             tf.addExporter(new TransExporter(new File("tweets_" + new Date() + ".trans")));
             QueryImporter importer = new QueryImporter(new String[]{"#DIY", "#4chan", "#couscous", "#tajine", "#jesuischarlie", "#hollande", "#swag", "#wtf", "#valls", "#dsk", "#ps", "#fn", "#ump", "#syrie", "#yolo"});
             int nbTweets = 0;
-            while (nbTweets < 10000) {
+            while (nbTweets < 100) {
                 try {
                     nbTweets += tf.export(importer);
                     System.out.println("Nombre de tweets : " + nbTweets);

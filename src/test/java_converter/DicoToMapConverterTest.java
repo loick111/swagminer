@@ -1,4 +1,4 @@
-package converter;
+package java_converter;
 
 import fr.loick.tm.Configure;
 import fr.loick.tm.converter.DicoToMapConverter;

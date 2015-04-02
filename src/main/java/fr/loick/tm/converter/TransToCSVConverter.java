@@ -16,11 +16,11 @@ public class TransToCSVConverter implements Converter {
     BufferedWriter bw;
     BufferedReader br;
 
-    public TransToCSVConverter(File file) {
+    public TransToCSVConverter(File file,File dico) {
         try {
 
             this.file = file;
-            dicoToMapConverter = new DicoToMapConverter(file);
+            dicoToMapConverter = new DicoToMapConverter(dico);
             dicoToMapConverter.convert();
             association = dicoToMapConverter.getMap();
             br = new BufferedReader(new FileReader(file));
@@ -39,14 +39,15 @@ public class TransToCSVConverter implements Converter {
             String[] codes;
             bw = new BufferedWriter(new FileWriter(new_csv));
 
-            if ((Strings.split(file.getName(),"."))[1].equals(".out")){
+
+            if ((Strings.split(file.getName(),"."))[1].equals("out")){
                 String line;
 
                 while ((line = br.readLine()) != null) {
                     codes = Strings.split(line," ");
 
                     for (int i = 0; i < codes.length - 2; ++i) {
-                        bw.write(association.get(codes[i]) + " ");
+                        bw.write(association.get(Integer.parseInt(codes[i])) + " ");
                     }
 
                     bw.write(codes[codes.length - 1]);
@@ -57,14 +58,14 @@ public class TransToCSVConverter implements Converter {
                 br.close();
                 bw.close();
 
-            }else if ((Strings.split(file.getName(),"."))[1].equals(".trans")){
+            }else if ((Strings.split(file.getName(),"."))[1].equals("trans")){
                 String line;
 
                 while ((line = br.readLine()) != null) {
                     codes = Strings.split(line," ");
 
                     for (int i = 0; i < codes.length - 1; ++i) {
-                        bw.write(association.get(codes[i]) + " ");
+                        bw.write(association.get(Integer.parseInt(codes[i])) + " ");
                     }
                     bw.newLine();
                     bw.flush();
