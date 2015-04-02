@@ -4,13 +4,13 @@ import java.io.*;
 import java.util.Map;
 
 /**
- * Created by p13005682 on 01/04/15.
+ * Created by Ploic on 01/04/15.
  */
-public class MapConverter implements Serializable {
+public class MapToDicoConverter implements Serializable,Converter {
     BufferedWriter bw;
     private Map<String, Integer> map;
 
-    public MapConverter(Map<String, Integer> map, File file) {
+    public MapToDicoConverter(Map<String, Integer> map, File file) {
 
         try {
             this.map = map;
@@ -24,11 +24,9 @@ public class MapConverter implements Serializable {
         try {
 
             for (Map.Entry<String, Integer> entry : map.entrySet()) {
-
                 bw.write(entry.getValue() + ";" + entry.getKey());
                 bw.newLine();
                 bw.flush();
-
             }
 
             bw.close();

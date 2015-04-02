@@ -35,8 +35,8 @@ public class TweetMiner {
             }
         }*/
         
-        TransDB db = new TransDB(new File("tweets_Wed Apr 01 21:48:48 CEST 2015.trans"));
-        APriori<Integer> algo = new APriori<>(db, 3420, (Integer o1, Integer o2) -> {
+        TransDB db = new TransDB(new File("tweets_Thu Apr 02 11:09:42 CEST 2015.trans"));
+        APriori<Integer> algo = new APriori<>(db, 100, (Integer o1, Integer o2) -> {
             if(o1 == null)
                 return -1;
             

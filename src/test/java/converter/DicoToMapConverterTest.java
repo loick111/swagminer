@@ -1,6 +1,7 @@
 package converter;
 
 import fr.loick.tm.Configure;
+import fr.loick.tm.converter.DicoToMapConverter;
 import fr.loick.tm.converter.MapToDicoConverter;
 import fr.loick.tm.export.Exporter;
 import fr.loick.tm.export.TransExporter;
@@ -14,12 +15,13 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
- * Created by loic on 01/04/15.
+ * Created by Ploic on 02/04/15.
  */
+public class DicoToMapConverterTest {
 
-public class MapConverterTest {
     @Test
-    public void testMapConvert() {
+    public void testDicoToMap(){
+
         TweetFetcher tf = new TweetFetcher(Configure.getTwitter());
         //tf.addExporter(new ConsoleExporter());
         try {
@@ -44,6 +46,10 @@ public class MapConverterTest {
             }
             MapToDicoConverter a = new MapToDicoConverter(((TransExporter) exporter).getAssociation(), new File("tweets_" + new Date() + ".trans.dico"));
             a.convert();
+            DicoToMapConverter b = new DicoToMapConverter(new File("tweets_" + new Date() + ".trans.dico"));
+            b.convert();
+            System.out.println(b.getMap());
+
         } catch (InterruptedException e1) {
             e1.printStackTrace();
         } catch (IOException e1) {
