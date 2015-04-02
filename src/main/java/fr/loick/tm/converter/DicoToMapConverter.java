@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Created by Ploic on 02/04/15.
  */
-public class DicoToMapConverter {
+public class DicoToMapConverter implements Converter {
 
     BufferedReader br;
     private Map<Integer, String> map;

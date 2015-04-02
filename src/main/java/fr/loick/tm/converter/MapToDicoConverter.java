@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Created by Ploic on 01/04/15.
  */
-public class MapToDicoConverter implements Serializable {
+public class MapToDicoConverter implements Serializable,Converter {
     BufferedWriter bw;
     private Map<String, Integer> map;
 
