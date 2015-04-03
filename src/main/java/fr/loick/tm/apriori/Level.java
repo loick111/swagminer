@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -44,18 +45,18 @@ public class Level<T> {
     }
     
     public Map<Set<T>, Integer> getEffectives(Collection<Set<T>> db){
-        Map<Set<T>, Integer> effetives = new HashMap<>(data.size());
+        Map<Set<T>, Integer> effetives = new ConcurrentHashMap<>(data.size());
         
         for(Set<T> d : data){
             effetives.put(d, 0);
         }
         
         for(Set<T> t : db){
-            for(Set<T> d : data){
+            data.parallelStream().forEach((d) -> {
                 if(t.containsAll(d)){
                     effetives.put(d, effetives.get(d) + 1);
                 }
-            }
+            });
         }
         
         return effetives;
