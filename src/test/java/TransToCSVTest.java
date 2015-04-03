@@ -1,8 +1,7 @@
-package java_converter;
-
 import fr.loick.tm.Configure;
 import fr.loick.tm.converter.DicoToMapConverter;
 import fr.loick.tm.converter.MapToDicoConverter;
+import fr.loick.tm.converter.TransToCSVConverter;
 import fr.loick.tm.export.Exporter;
 import fr.loick.tm.export.TransExporter;
 import fr.loick.tm.fetch.QueryImporter;
@@ -15,17 +14,17 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
- * Created by Ploic on 02/04/15.
+ * Created by loic on 02/04/15.
  */
-public class DicoToMapConverterTest {
-
+public class TransToCSVTest {
     @Test
-    public void testDicoToMap(){
+    public void testTransToCSV(){
 
         TweetFetcher tf = new TweetFetcher(Configure.getTwitter());
         //tf.addExporter(new ConsoleExporter());
         try {
-            Exporter exporter = new TransExporter(new File("tweets_" + new Date() + ".trans"));
+            File trans = new File("tweets_" + new Date() + ".trans");
+            Exporter exporter = new TransExporter(trans);
             tf.addExporter(exporter);
 
             QueryImporter importer = new QueryImporter(new String[]{" #TPMP"});
@@ -44,11 +43,13 @@ public class DicoToMapConverterTest {
                     }
                 }
             }
-            MapToDicoConverter a = new MapToDicoConverter(((TransExporter) exporter).getAssociation(), new File("tweets_" + new Date() + ".trans.dico"));
+            File tmp = new File("tweets_" + new Date() + ".trans.dico");
+            MapToDicoConverter a = new MapToDicoConverter(((TransExporter) exporter).getAssociation(),tmp );
             a.convert();
-            DicoToMapConverter b = new DicoToMapConverter(new File("tweets_" + new Date() + ".trans.dico"));
+            DicoToMapConverter b = new DicoToMapConverter(tmp);
             b.convert();
-            System.out.println(b.getMap());
+            TransToCSVConverter c = new TransToCSVConverter(trans,tmp);
+            c.convert();
 
         } catch (InterruptedException e1) {
             e1.printStackTrace();

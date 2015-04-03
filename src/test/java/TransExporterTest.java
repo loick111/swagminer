@@ -1,10 +1,8 @@
-package java_converter;
+/**
+ * Created by loic on 01/04/15.
+ */
 
 import fr.loick.tm.Configure;
-import fr.loick.tm.converter.DicoToMapConverter;
-import fr.loick.tm.converter.MapToDicoConverter;
-import fr.loick.tm.converter.TransToCSVConverter;
-import fr.loick.tm.export.Exporter;
 import fr.loick.tm.export.TransExporter;
 import fr.loick.tm.fetch.QueryImporter;
 import fr.loick.tm.fetch.TweetFetcher;
@@ -15,21 +13,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
-/**
- * Created by loic on 02/04/15.
- */
-public class TransToCSVTest {
+public class TransExporterTest {
     @Test
-    public void testTransToCSV(){
-
+    public void testTrans() {
         TweetFetcher tf = new TweetFetcher(Configure.getTwitter());
         //tf.addExporter(new ConsoleExporter());
         try {
-            File trans = new File("tweets_" + new Date() + ".trans");
-            Exporter exporter = new TransExporter(trans);
-            tf.addExporter(exporter);
-
-            QueryImporter importer = new QueryImporter(new String[]{" #TPMP"});
+            tf.addExporter(new TransExporter(new File("tweets_" + new Date() + ".trans")));
+            QueryImporter importer = new QueryImporter(new String[]{"#DIY", "#4chan", "#couscous", "#tajine", "#jesuischarlie", "#hollande", "#swag", "#wtf", "#valls", "#dsk", "#ps", "#fn", "#ump", "#syrie", "#yolo"});
             int nbTweets = 0;
             while (nbTweets < 100) {
                 try {
@@ -45,18 +36,11 @@ public class TransToCSVTest {
                     }
                 }
             }
-            File tmp = new File("tweets_" + new Date() + ".trans.dico");
-            MapToDicoConverter a = new MapToDicoConverter(((TransExporter) exporter).getAssociation(),tmp );
-            a.convert();
-            DicoToMapConverter b = new DicoToMapConverter(tmp);
-            b.convert();
-            TransToCSVConverter c = new TransToCSVConverter(trans,tmp);
-            c.convert();
-
         } catch (InterruptedException e1) {
             e1.printStackTrace();
         } catch (IOException e1) {
             e1.printStackTrace();
         }
     }
+
 }

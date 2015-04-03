@@ -21,8 +21,9 @@ public class Configure {
         cb.setDebugEnabled(DEBUG)
                 .setOAuthConsumerKey("1mdI9BOPsBSE1lVv0PD0xMcRK")
                 .setOAuthConsumerSecret("XLKIcggPXRRHdWafJTybRJ4WkC1ZE133TenxmxosoIhbBaKslt")
-                .setOAuthAccessToken(" 3131062186-Ug6JlzUywgXiIzjzttjuEer14UuqjqsUnT6D2bF")
-                .setOAuthAccessTokenSecret(" ptSkKdqUfyu23s9zs0DRS3w3fTm2c8xSKcMZ1p9auVHxG");
+                .setOAuthAccessToken("3131062186-Ug6JlzUywgXiIzjzttjuEer14UuqjqsUnT6D2bF")
+                .setOAuthAccessTokenSecret("ptSkKdqUfyu23s9zs0DRS3w3fTm2c8xSKcMZ1p9auVHxG");
+
 
         TwitterFactory factory = new TwitterFactory(cb.build());
         return factory.getInstance();

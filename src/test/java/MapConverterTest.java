@@ -1,5 +1,3 @@
-package java_converter;
-
 import fr.loick.tm.Configure;
 import fr.loick.tm.converter.MapToDicoConverter;
 import fr.loick.tm.export.Exporter;
