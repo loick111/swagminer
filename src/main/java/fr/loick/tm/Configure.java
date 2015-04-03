@@ -19,10 +19,10 @@ public class Configure {
         ConfigurationBuilder cb = new ConfigurationBuilder();
 
         cb.setDebugEnabled(DEBUG)
-                .setOAuthConsumerKey("p3eLju1lpSuNSutkZ47MmGNvo")
-                .setOAuthConsumerSecret("84djqZ65G6ZWSHn6VZoSp0WwQFk5ee2bAIBvCAlxVzrU1PXMXz")
-                .setOAuthAccessToken("569889211-umq6MLSDYlRE5TuiTw0LDRQxpS3pEBL5BI2StXRI")
-                .setOAuthAccessTokenSecret("8i4akvPnVQqT4nSitWXNa4G6XtH3F6DykPLVqHkA62NO0");
+                .setOAuthConsumerKey("1mdI9BOPsBSE1lVv0PD0xMcRK")
+                .setOAuthConsumerSecret("XLKIcggPXRRHdWafJTybRJ4WkC1ZE133TenxmxosoIhbBaKslt")
+                .setOAuthAccessToken(" 3131062186-Ug6JlzUywgXiIzjzttjuEer14UuqjqsUnT6D2bF")
+                .setOAuthAccessTokenSecret(" ptSkKdqUfyu23s9zs0DRS3w3fTm2c8xSKcMZ1p9auVHxG");
 
         TwitterFactory factory = new TwitterFactory(cb.build());
         return factory.getInstance();
