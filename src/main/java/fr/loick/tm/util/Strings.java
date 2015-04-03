@@ -13,7 +13,7 @@ import java.util.Collection;
  */
 final public class Strings {
 
-    final static public char[] TRIM_CHARS = {'.', ':', '!', ',', ';', '?', ' ', '\t', '\n', '\r', '-'};
+    final static public char[] TRIM_CHARS = {'.', ':', '!', ',', ';', '?', ' ', '\t', '\n', '\r', '-', '\'', '"'};
 
     private Strings() {
     }
@@ -135,6 +135,6 @@ final public class Strings {
     }
 
     static public String[] getWords(String line) {
-        return getWords(line, TRIM_CHARS, 1);
+        return getWords(line, TRIM_CHARS, 3);
     }
 }

@@ -5,7 +5,7 @@
  */
 package fr.loick.tm.fetch;
 
-import fr.loick.tm.export.Exporter;
+import fr.loick.tm.fetch.export.Exporter;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;

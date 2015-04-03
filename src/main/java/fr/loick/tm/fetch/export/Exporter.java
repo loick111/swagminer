@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.loick.tm.export;
+package fr.loick.tm.fetch.export;
 
 import twitter4j.Status;
 

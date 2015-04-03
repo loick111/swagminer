@@ -1,14 +1,13 @@
-package fr.loick.tm.export;
+package fr.loick.tm.fetch.export;
 
-import fr.loick.tm.util.CSV;
+import fr.loick.tm.fetch.Dico;
+import fr.loick.tm.util.Strings;
 import twitter4j.Status;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,27 +18,27 @@ public class TransExporter implements Exporter {
 
     final private File file;
     final private BufferedWriter bw;
-    final private Map<String, Integer> association;
-    private Integer id = 0;
+    final private Dico dico;
 
-    public TransExporter(File file) throws IOException {
+    public TransExporter(File file, Dico dico) throws IOException {
         this.file = file;
         bw = new BufferedWriter(new FileWriter(file));
-        association = new HashMap<>();
+        this.dico = dico;
     }
 
     @Override
     public void export(Status status) {
-        Integer id_curr;
         try {
-            for (String s : (CSV.parse(CSV.stringify(status))).getWords()) {
-                if ((id_curr = association.get(s)) == null) {
-                    association.put(s, id);
-                    bw.write(id + " ");
-                    id++;
-                } else {
-                    bw.write(id_curr + " ");
-                }
+            boolean first = true;
+            for (String s : Strings.getWords(status.getText())) {
+                int id = dico.getId(s);
+                
+                if(!first)
+                    bw.write(' ');
+                else
+                    first = false;
+                
+                bw.write(id + "");
             }
 
             bw.newLine();
@@ -50,8 +49,8 @@ public class TransExporter implements Exporter {
 
     }
 
-    public Map<String, Integer> getAssociation() {
-        return association;
+    public Dico getDico() {
+        return dico;
     }
 
     @Override
