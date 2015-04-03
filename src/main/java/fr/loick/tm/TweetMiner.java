@@ -1,6 +1,7 @@
 package fr.loick.tm;
 
 import fr.loick.tm.apriori.APriori;
+import fr.loick.tm.apriori.FileExporter;
 import fr.loick.tm.apriori.TransDB;
 import twitter4j.TwitterException;
 
@@ -35,8 +36,10 @@ public class TweetMiner {
             }
         }*/
         
+        FileExporter<Integer> exporter = new FileExporter<>(new File("apriori"));
+        
         TransDB db = new TransDB(new File("tweets_Thu Apr 02 11:09:42 CEST 2015.trans"));
-        APriori<Integer> algo = new APriori<>(db, 100, (Integer o1, Integer o2) -> {
+        APriori<Integer> algo = new APriori<>(db, 300, (Integer o1, Integer o2) -> {
             if(o1 == null)
                 return -1;
             
@@ -45,9 +48,8 @@ public class TweetMiner {
             
             return o1 - o2;
         });
-        algo.addExporter((Set<Integer> row, int effective) -> {
-            System.out.println(row + " => " + effective);
-        });
+        algo.addExporter(exporter);
         algo.perform();
+        exporter.close();
     }
 }

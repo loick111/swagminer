@@ -57,7 +57,7 @@ public class APriori<T> {
         int i = 1;
         
         do{
-            System.out.println("Performing level " + i);
+            System.out.print("Performing level " + i + " : ");
             Map<Set<T>, Integer> effectives = level.getEffectives(data);
             Collection<Set<T>> levelData = new ArrayList<>(effectives.size());
             
@@ -69,6 +69,8 @@ public class APriori<T> {
                     levelData.add(entry.getKey());
                 }
             }
+            
+            System.out.println(levelData.size());
             
             level = new Level<>(levelData, comparator).getNextLevel();
             ++i;

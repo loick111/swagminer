@@ -31,7 +31,7 @@ public class Level<T> {
         
         for (Set<T> o1 : data) {
             for(Set<T> o2 : data){
-                if(o1.equals(o2))
+                if(o1 == o2) //same collection => o1.equals(o2) <=> o1 == o2
                     continue;
                 
                 Set<T> r = Operators.halfUnion(o1, o2, comparator);
