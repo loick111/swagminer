@@ -2,7 +2,6 @@ package fr.loick.tm.converter;
 
 import fr.loick.tm.util.Strings;
 
-import javax.print.DocFlavor;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;

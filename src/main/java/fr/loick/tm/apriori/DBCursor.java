@@ -9,8 +9,10 @@ import java.util.Set;
 
 /**
  *
- * @author q13000412
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  */
-public interface APrioriExporter<T> {
-    public void export(Set<T> row, double freq);
+public interface DBCursor<T> {
+    public boolean next();
+    public Set<T> getRow();
+    public void close();
 }

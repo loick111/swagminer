@@ -17,14 +17,14 @@ import java.util.Set;
  * @author q13000412
  */
 public class APriori<T> {
-    final private Collection<Set<T>> data;
-    final private int minEffective;
+    final private Database<T> db;
+    final private double minFreq;
     final private Comparator<T> comparator;
     final private Collection<APrioriExporter> exporters = new ArrayList<>();
 
-    public APriori(Collection<Set<T>> data, int minEffective, Comparator<T> comparator) {
-        this.data = data;
-        this.minEffective = minEffective;
+    public APriori(Database<T> db, double minFreq, Comparator<T> comparator) {
+        this.db = db;
+        this.minFreq = minFreq;
         this.comparator = comparator;
     }
     
@@ -38,11 +38,18 @@ public class APriori<T> {
 
     public void perform(){
         Set<T> first = new HashSet<>();
+        double size = 0;
         
-        for(Set<T> s : data){
-            for(T t : s){
-                first.add(t);
+        {
+            DBCursor<T> cursor = db.getCursor();
+            while(cursor.next()){
+                ++size;
+                Set<T> s = cursor.getRow();
+                for(T t : s){
+                    first.add(t);
+                }
             }
+            cursor.close();
         }
         
         Collection<Set<T>> lData = new ArrayList<>(first.size());
@@ -58,13 +65,14 @@ public class APriori<T> {
         
         do{
             System.out.print("Performing level " + i + " : ");
-            Map<Set<T>, Integer> effectives = level.getEffectives(data);
+            Map<Set<T>, Integer> effectives = level.getEffectives(db);
             Collection<Set<T>> levelData = new ArrayList<>(effectives.size());
             
             for(Map.Entry<Set<T>, Integer> entry : effectives.entrySet()){
-                if(entry.getValue() >= minEffective){
+                double freq = entry.getValue() / size;
+                if(freq >= minFreq){
                     for(APrioriExporter<T> exporter : exporters){
-                        exporter.export(entry.getKey(), entry.getValue());
+                        exporter.export(entry.getKey(), freq);
                     }
                     levelData.add(entry.getKey());
                 }

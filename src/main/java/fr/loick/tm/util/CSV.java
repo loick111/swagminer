@@ -1,5 +1,6 @@
 package fr.loick.tm.util;
 
+import java.util.Set;
 import twitter4j.Status;
 
 /**
@@ -26,6 +27,20 @@ final public class CSV {
                 data[2],
                 Strings.split(data[3], ",")
         );
+    }
+    
+    static public String stringify(Set item){
+        StringBuilder sb = new StringBuilder(item.size() * 5);
+        boolean first = true;
+        for (Object i : item) {
+            if(!first){
+                sb.append(',');
+            }else{
+                first = false;
+            }
+            sb.append(i);
+        }
+        return sb.toString();
     }
 
     static public class TweetData {

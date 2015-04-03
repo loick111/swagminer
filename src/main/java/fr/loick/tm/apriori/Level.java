@@ -8,7 +8,6 @@ package fr.loick.tm.apriori;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -44,20 +43,23 @@ public class Level<T> {
         return new Level<>(nData, comparator);
     }
     
-    public Map<Set<T>, Integer> getEffectives(Collection<Set<T>> db){
+    public Map<Set<T>, Integer> getEffectives(Database<T> db){
         Map<Set<T>, Integer> effetives = new ConcurrentHashMap<>(data.size());
         
         for(Set<T> d : data){
             effetives.put(d, 0);
         }
         
-        for(Set<T> t : db){
+        DBCursor<T> cursor = db.getCursor();
+        while(cursor.next()){
+            Set<T> row = cursor.getRow();
             data.parallelStream().forEach((d) -> {
-                if(t.containsAll(d)){
+                if(row.containsAll(d)){
                     effetives.put(d, effetives.get(d) + 1);
                 }
             });
         }
+        cursor.close();
         
         return effetives;
     }

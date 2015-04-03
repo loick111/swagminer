@@ -3,10 +3,21 @@ package fr.loick.tm;
 import fr.loick.tm.apriori.APriori;
 import fr.loick.tm.apriori.FileExporter;
 import fr.loick.tm.apriori.TransDB;
+import fr.loick.tm.assoc.AssocBuilder;
+import fr.loick.tm.assoc.CSVFileExporter;
+import fr.loick.tm.converter.AssocTranslatorConverter;
+import fr.loick.tm.converter.MapToDicoConverter;
+import fr.loick.tm.export.CSVExporter;
+import fr.loick.tm.export.TransExporter;
+import fr.loick.tm.fetch.QueryImporter;
+import fr.loick.tm.fetch.TweetFetcher;
 import twitter4j.TwitterException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -14,18 +25,22 @@ import java.util.Set;
  */
 public class TweetMiner {
     public static void main(String[] args) throws TwitterException, InterruptedException, IOException {
-        /*TweetFetcher tf = new TweetFetcher(Configure.getTwitter());
-        //tf.addExporter(new ConsoleExporter());
-        tf.addExporter(new CSVExporter(new File("tweets_" + new Date() + ".csv")));
-        tf.addExporter(new TransExporter(new File("tweets_" + new Date() + ".trans")));
+        System.out.println("==== loading tweets ====");
+        
+        TweetFetcher tf = new TweetFetcher(Configure.getTwitter());
+        String baseName = "tweets_" + new Date();
+        tf.addExporter(new CSVExporter(new File(baseName + ".csv")));
+        
+        TransExporter transExporter = new TransExporter(new File(baseName + ".trans"));
+        tf.addExporter(transExporter);
 
-        QueryImporter importer = new QueryImporter(new String[]{"#4chan", "#couscous", "#tajine", "#jesuischarlie", "#hollande", "#swag", "#wtf", "#valls", "#dsk", "#ps", "#fn", "#ump", "#syrie", "#yolo"});
+        QueryImporter importer = new QueryImporter(new String[]{"#couscous", "#tajine", "#hollande", "#swag", "#valls", "#dsk", "#ps", "#fn", "#ump", "#syrie"});
         int nbTweets = 0;
-        while (nbTweets < 1000000) {
+        while (nbTweets < 10000) {
             try {
                 nbTweets += tf.export(importer);
                 System.out.println("Nombre de tweets : " + nbTweets);
-                Thread.sleep(3000);
+                Thread.sleep(1000);
             } catch (TwitterException e) {
                 if (e.getRateLimitStatus().getSecondsUntilReset() > 0) {
                     System.out.println("Error : " + e.getErrorMessage());
@@ -34,12 +49,24 @@ public class TweetMiner {
                     Thread.sleep(time * 1000);
                 }
             }
-        }*/
+        }
         
-        FileExporter<Integer> exporter = new FileExporter<>(new File("apriori"));
+        System.out.println("==== creating dico ====");
+        MapToDicoConverter converter = new MapToDicoConverter(transExporter.getAssociation(), new File(baseName + ".dico"));
+        converter.convert();
         
-        TransDB db = new TransDB(new File("tweets_Thu Apr 02 11:09:42 CEST 2015.trans"));
-        APriori<Integer> algo = new APriori<>(db, 300, (Integer o1, Integer o2) -> {
+        System.out.println("==== reversing dico ====");
+        Map<Integer, String> reverseDico = new HashMap<>();
+        
+        for(Map.Entry<String, Integer> entry : transExporter.getAssociation().entrySet()){
+            reverseDico.put(entry.getValue(), entry.getKey());
+        }
+        
+        System.out.println("==== APriori ====");
+        FileExporter<Integer> exporter = new FileExporter<>(new File(baseName + ".ap"));
+        
+        TransDB db = new TransDB(new File(baseName + ".trans"));
+        APriori<Integer> algo = new APriori<>(db, .05, (Integer o1, Integer o2) -> {
             if(o1 == null)
                 return -1;
             
@@ -49,7 +76,24 @@ public class TweetMiner {
             return o1 - o2;
         });
         algo.addExporter(exporter);
+        
+        
+        final Map<Set<Integer>, Double> frequencies = new HashMap<>();
+        algo.addExporter((s, f) -> {
+            frequencies.put(s, f);
+        });
         algo.perform();
         exporter.close();
+        
+        System.out.println("==== Searching assoc ====");
+        CSVFileExporter<Integer> assocExporter = new CSVFileExporter<>(new File(baseName + ".assoc"));
+        AssocBuilder<Integer> assocBuilder = new AssocBuilder<>(frequencies);
+        assocBuilder.addExporter(assocExporter);
+        assocBuilder.buildAssoc(0, 1);
+        assocExporter.close();
+        
+        System.out.println("==== Translating assoc ====");
+        AssocTranslatorConverter atc = new AssocTranslatorConverter(new File(baseName + ".assoc"), new File(baseName + ".words"), reverseDico);
+        atc.convert();
     }
 }

@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.loick.tm.apriori;
-
-import java.util.Set;
+package fr.loick.tm.assoc;
 
 /**
  *
- * @author q13000412
+ * @author Vincent Quatrevieux <quatrevieux.vincent@gmail.com>
  */
-public interface APrioriExporter<T> {
-    public void export(Set<T> row, double freq);
+public interface AssocExporter<T> {
+    public void export(Assoc<T> assoc);
 }
