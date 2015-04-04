@@ -10,6 +10,7 @@ import fr.loick.tm.fetch.QueryImporter;
 import fr.loick.tm.fetch.TweetFetcher;
 import fr.loick.tm.fetch.export.CSVExporter;
 import fr.loick.tm.fetch.export.TransExporter;
+import fr.loick.tm.lift.ComputeLift;
 import twitter4j.TwitterException;
 
 import java.io.File;
@@ -34,7 +35,7 @@ public class TweetMiner {
 //        TransExporter transExporter = new TransExporter(new File(baseName + ".trans"), dico);
 //        tf.addExporter(transExporter);
 //
-//        QueryImporter importer = new QueryImporter(new String[]{"#DIY", "#couscous", "#tajine", "#maubec", "#senas", "#jouques"});
+//        QueryImporter importer = new QueryImporter(new String[]{"#poireau", "#poireaux", "#couscous", "#tajine", "#maubec", "#senas", "#jouques", "#fablab", "#france"});
 //        int nbTweets = 0;
 //        while (nbTweets < 10000) {
 //            try {
@@ -54,7 +55,7 @@ public class TweetMiner {
 //        System.out.println("==== Saving dico ====");
 //        dico.save();
         
-        String baseName = "tweets_Fri Apr 03 19:25:31 CEST 2015";
+        String baseName = "tweets_Sat Apr 04 12:44:23 CEST 2015";
         Dico dico = new Dico(new File(baseName + ".dico"));
         
         System.out.println("==== loading dico ====");
@@ -64,7 +65,7 @@ public class TweetMiner {
         FileExporter<Integer> exporter = new FileExporter<>(new File(baseName + ".ap"));
         
         TransDB db = new TransDB(new File(baseName + ".trans"));
-        APriori<Integer> algo = new APriori<>(db, .035, (Integer o1, Integer o2) -> {
+        APriori<Integer> algo = new APriori<>(db, .02, (Integer o1, Integer o2) -> {
             if(o1 == null)
                 return -1;
             
@@ -103,12 +104,16 @@ public class TweetMiner {
 //        DicoToMapConverter converter = new DicoToMapConverter(new File(baseName + ".dico"));
 //        converter.convert();
 //        Map<Integer, String> reverseDico = converter.getMap();
-        
-        System.out.println("==== Searching assoc ====");
-        TranslateFileExporter tfe = new TranslateFileExporter(new File(baseName + ".assoc"), dico);
-        AssocBuilder<Integer> assocBuilder = new AssocBuilder<>(frequencies);
-        assocBuilder.addExporter(tfe);
-        assocBuilder.buildAssoc(0, 1);
-        tfe.close();
+//
+//        System.out.println("==== Searching assoc ====");
+//        TranslateFileExporter tfe = new TranslateFileExporter(new File(baseName + ".assoc"), dico);
+//        AssocBuilder<Integer> assocBuilder = new AssocBuilder<>(frequencies);
+//        assocBuilder.addExporter(tfe);
+//        assocBuilder.buildAssoc(0, 1);
+//        tfe.close();
+
+        System.out.println("==== Compute Lift ====");
+        ComputeLift computeLift = new ComputeLift(new File(baseName + ".assoc"),new File(baseName + ".ap"),new File("test.lift"));
+        computeLift.comupute();
     }
 }

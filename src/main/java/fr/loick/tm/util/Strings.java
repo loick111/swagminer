@@ -13,7 +13,7 @@ import java.util.Collection;
  */
 final public class Strings {
 
-    final static public char[] TRIM_CHARS = {'.', ':', '!', ',', ';', '?', ' ', '\t', '\n', '\r', '-', '\'', '"'};
+    final static public char[] TRIM_CHARS = {'.', ':', '!', ',', ';', '?', ' ', '\t', '\n', '\r', '-', '\'', '"', '#'};
 
     private Strings() {
     }
