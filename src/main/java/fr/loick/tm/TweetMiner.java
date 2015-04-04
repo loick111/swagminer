@@ -10,6 +10,7 @@ import fr.loick.tm.fetch.QueryImporter;
 import fr.loick.tm.fetch.TweetFetcher;
 import fr.loick.tm.fetch.export.CSVExporter;
 import fr.loick.tm.fetch.export.TransExporter;
+import fr.loick.tm.lift.ComputeLift;
 import twitter4j.TwitterException;
 
 import java.io.File;
@@ -54,34 +55,34 @@ public class TweetMiner {
 //        System.out.println("==== Saving dico ====");
 //        dico.save();
         
-        String baseName = "tweets_Fri Apr 03 19:25:31 CEST 2015";
-        Dico dico = new Dico(new File(baseName + ".dico"));
-        
-        System.out.println("==== loading dico ====");
-        dico.load();
-        
-        System.out.println("==== APriori ====");
-        FileExporter<Integer> exporter = new FileExporter<>(new File(baseName + ".ap"));
-        
-        TransDB db = new TransDB(new File(baseName + ".trans"));
-        APriori<Integer> algo = new APriori<>(db, .035, (Integer o1, Integer o2) -> {
-            if(o1 == null)
-                return -1;
-            
-            if(o2 == null)
-                return 1;
-            
-            return o1 - o2;
-        });
-        algo.addExporter(exporter);
-        
-        
-        final Map<Set<Integer>, Double> frequencies = new HashMap<>();
-        algo.addExporter((s, f) -> {
-            frequencies.put(s, f);
-        });
-        algo.perform();
-        exporter.close();
+        String baseName = "tweets_Fri Apr 03 16:23:24 CEST 2015";
+//        Dico dico = new Dico(new File(baseName + ".dico"));
+//
+//        System.out.println("==== loading dico ====");
+//        dico.load();
+//
+//        System.out.println("==== APriori ====");
+//        FileExporter<Integer> exporter = new FileExporter<>(new File(baseName + ".ap"));
+//
+//        TransDB db = new TransDB(new File(baseName + ".trans"));
+//        APriori<Integer> algo = new APriori<>(db, .035, (Integer o1, Integer o2) -> {
+//            if(o1 == null)
+//                return -1;
+//
+//            if(o2 == null)
+//                return 1;
+//
+//            return o1 - o2;
+//        });
+//        algo.addExporter(exporter);
+//
+//
+//        final Map<Set<Integer>, Double> frequencies = new HashMap<>();
+//        algo.addExporter((s, f) -> {
+//            frequencies.put(s, f);
+//        });
+//        algo.perform();
+//        exporter.close();
         
 //        System.out.println("==== Loading frequencies ====");
 //        String baseName = "tweets_Fri Apr 03 16:23:24 CEST 2015";
@@ -103,12 +104,16 @@ public class TweetMiner {
 //        DicoToMapConverter converter = new DicoToMapConverter(new File(baseName + ".dico"));
 //        converter.convert();
 //        Map<Integer, String> reverseDico = converter.getMap();
-        
-        System.out.println("==== Searching assoc ====");
-        TranslateFileExporter tfe = new TranslateFileExporter(new File(baseName + ".assoc"), dico);
-        AssocBuilder<Integer> assocBuilder = new AssocBuilder<>(frequencies);
-        assocBuilder.addExporter(tfe);
-        assocBuilder.buildAssoc(0, 1);
-        tfe.close();
+//
+//        System.out.println("==== Searching assoc ====");
+//        TranslateFileExporter tfe = new TranslateFileExporter(new File(baseName + ".assoc"), dico);
+//        AssocBuilder<Integer> assocBuilder = new AssocBuilder<>(frequencies);
+//        assocBuilder.addExporter(tfe);
+//        assocBuilder.buildAssoc(0, 1);
+//        tfe.close();
+
+        System.out.println("==== Compute Lift ====");
+        ComputeLift computeLift = new ComputeLift(new File(baseName + ".assoc"),new File(baseName + ".ap"),new File("test.lift"));
+        computeLift.comupute();
     }
 }
