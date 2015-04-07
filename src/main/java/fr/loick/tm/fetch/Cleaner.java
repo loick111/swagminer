@@ -2,9 +2,7 @@ package fr.loick.tm.fetch;
 
 
 import fr.loick.tm.util.CSV;
-import fr.loick.tm.util.Strings;
 
-import javax.print.DocFlavor;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,7 +43,14 @@ public class Cleaner {
                     }
                 }
 
-                bufferedWriterClean.write(data.getDate() + ';' + data.getUser() + ';' + data.getLocation() + ';' + Strings.join(cleaned.toArray(new String[]{}), ","));
+                CSV.TweetData dataCleaned = new CSV.TweetData(
+                        data.getDate(),
+                        data.getUser(),
+                        data.getLocation(),
+                        cleaned.toArray(new String[]{})
+                );
+
+                bufferedWriterClean.write(CSV.stringify(dataCleaned));
                 bufferedWriterClean.newLine();
                 bufferedWriterClean.flush();
             }

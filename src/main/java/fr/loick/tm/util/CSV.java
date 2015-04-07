@@ -1,7 +1,8 @@
 package fr.loick.tm.util;
 
-import java.util.Set;
 import twitter4j.Status;
+
+import java.util.Set;
 
 /**
  * Created by loick on 01/04/15.
@@ -11,11 +12,20 @@ final public class CSV {
     }
 
     public static String stringify(Status s) {
-        return Strings.join(new String[]{
+        return CSV.stringify(new TweetData(
                 String.valueOf(s.getCreatedAt()).trim(),
                 s.getUser().getScreenName().trim(),
                 s.getUser().getLocation().trim(),
-                Strings.join(Strings.getWords(s.getText()), ",")
+                Strings.getWords(s.getText())
+        ));
+    }
+
+    public static String stringify(TweetData td) {
+        return Strings.join(new String[]{
+                td.getDate(),
+                td.getUser(),
+                td.getLocation(),
+                Strings.join(td.getWords(), ",")
         }, ";");
     }
 
