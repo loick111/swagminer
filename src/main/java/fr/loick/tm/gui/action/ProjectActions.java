@@ -9,6 +9,7 @@ import fr.loick.tm.Configure;
 import fr.loick.tm.fetch.QueryImporter;
 import fr.loick.tm.fetch.TweetFetcher;
 import fr.loick.tm.fetch.export.CSVExporter;
+import fr.loick.tm.fetch.export.TransExporter;
 import fr.loick.tm.gui.MainFrame;
 import fr.loick.tm.gui.NewProjet;
 import fr.loick.tm.gui.ProjectGui;
@@ -41,14 +42,13 @@ public class ProjectActions {
         project.getFolder().delete();
         project.getFolder().mkdir();
         
-        File csv = new File(project.getName() + "/tweets.csv");
-        csv.delete();
         
         final TweetFetcher fecther = new TweetFetcher(Configure.getTwitter());
         final QueryImporter importer = new QueryImporter(np.getQuery());
         
         try {
-            fecther.addExporter(new CSVExporter(csv));
+            fecther.addExporter(new CSVExporter(project.getTweetFile()));
+            fecther.addExporter(new TransExporter(new File(project.getName() + "/tweets.trans"), project.getDico()));
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(MainFrame.getInstance(), ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         }
@@ -67,6 +67,7 @@ public class ProjectActions {
                     if(nbTweets < np.getNbTweets()){
                         service.schedule(this, 1500, TimeUnit.MILLISECONDS);
                     }else{
+                        project.getDico().save();
                         loader.dispose();
                         ProjectGui gui = new ProjectGui(project);
                         MainFrame.getInstance().addProject(gui);
@@ -75,9 +76,18 @@ public class ProjectActions {
                     int time = ex.getRateLimitStatus().getSecondsUntilReset();
                     JOptionPane.showMessageDialog(MainFrame.getInstance(), "Ban pour " + time + "sec", "Twitter", JOptionPane.WARNING_MESSAGE);
                     service.schedule(this, time, TimeUnit.SECONDS);
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(MainFrame.getInstance(), ex, "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
             }
         };
         task.run();
+    }
+    
+    static public void openProject(ActionEvent e){
+        String name = JOptionPane.showInputDialog("Nom du projet");
+        Project project = new Project(name, new File(name));
+        ProjectGui gui = new ProjectGui(project);
+        MainFrame.getInstance().addProject(gui);
     }
 }

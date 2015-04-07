@@ -21,7 +21,7 @@ public class MainFrame extends JFrame{
         super("TweetMiner");
         
         setJMenuBar(new MainMenu());
-        setSize(400, 300);
+        setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
         
         tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         add(tabbedPane);

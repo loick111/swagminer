@@ -5,6 +5,7 @@
  */
 package fr.loick.tm.gui.model;
 
+import fr.loick.tm.fetch.Dico;
 import java.io.File;
 
 /**
@@ -14,10 +15,12 @@ import java.io.File;
 public class Project {
     final private String name;
     final private File folder;
+    final private Dico dico;
 
     public Project(String name, File folder) {
         this.name = name;
         this.folder = folder;
+        dico = new Dico(new File(name + "/dico"));
     }
 
     public String getName() {
@@ -27,5 +30,12 @@ public class Project {
     public File getFolder() {
         return folder;
     }
+
+    public Dico getDico() {
+        return dico;
+    }
     
+    public File getTweetFile(){
+        return new File(name + "/tweets.csv");
+    }
 }

@@ -54,10 +54,11 @@ public class TransExporter implements Exporter {
     }
 
     @Override
-
     public void endExport() {
         try {
+            bw.flush();
             bw.close();
+            dico.save();
         } catch (IOException e) {
             Logger.getLogger(TransExporter.class.getName()).log(Level.SEVERE, null, e);
         }

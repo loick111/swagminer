@@ -32,6 +32,13 @@ public class MainMenu extends JMenuBar{
         newProject.addActionListener(ProjectActions::newProject);
         menu.add(newProject);
         
+        JMenuItem open = new JMenuItem("Ouvrir");
+        open.setMnemonic('o');
+        open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK));
+        open.addActionListener(ProjectActions::openProject);
+        menu.add(open);
+        
+        
         return menu;
     }
 }

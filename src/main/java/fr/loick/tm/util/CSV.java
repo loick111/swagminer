@@ -12,9 +12,9 @@ final public class CSV {
 
     public static String stringify(Status s) {
         return Strings.join(new String[]{
-                String.valueOf(s.getCreatedAt()),
-                s.getUser().getScreenName(),
-                s.getUser().getLocation(),
+                String.valueOf(s.getCreatedAt()).trim(),
+                s.getUser().getScreenName().trim(),
+                s.getUser().getLocation().trim(),
                 Strings.join(Strings.getWords(s.getText()), ",")
         }, ";");
     }

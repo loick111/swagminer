@@ -24,6 +24,7 @@ public class CSVExporter implements Exporter {
 
     public CSVExporter(File file) throws IOException {
         this.file = file;
+        file.delete();
         bw = new BufferedWriter(new FileWriter(file));
     }
 
