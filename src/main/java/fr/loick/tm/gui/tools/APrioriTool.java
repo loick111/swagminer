@@ -36,6 +36,7 @@ public class APrioriTool extends ProjectTool{
     private Thread aprioriThread;
     private PrintStream consoleStream;
     private JTextArea console;
+    private JButton startButton;
 
     public APrioriTool(Project project) {
         this.project = project;
@@ -73,30 +74,20 @@ public class APrioriTool extends ProjectTool{
         final JSpinner minFreq = new JSpinner(new SpinnerNumberModel(.01, 0, 1, .001));
         panel.add(minFreq);
         
-        JButton button = new JButton("Afficher");
-        panel.add(button);
-        button.addActionListener((e) -> {
+        startButton = new JButton("Afficher");
+        panel.add(startButton);
+        startButton.addActionListener((e) -> {
             redirectOut();
             if(!loadAPriori((double) minFreq.getValue())){
                 launchAPriori((double) minFreq.getValue());
             }
         });
         
-        JButton stop = new JButton("Stop");
-        stop.addActionListener((e) -> {
-            if(aprioriThread != null && !aprioriThread.isInterrupted()){
-                aprioriThread.interrupt();
-                System.out.println("\n/!\\ APriori arrete ! /!\\");
-            }
-            
-            aprioriThread = null;
-        });
-        panel.add(stop);
-        
         add(panel, BorderLayout.NORTH);
     }
     
     private void launchAPriori(double minFreq){
+        startButton.setEnabled(false);
         aprioriThread = new Thread(() -> {
             APriori<Integer> apriori = new APriori<>(new TransDB(new File(project.getName() + "/tweets.trans")),  minFreq, (a, b) -> {
                 if(a == null)
@@ -123,6 +114,8 @@ public class APrioriTool extends ProjectTool{
                 fe.close();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(MainFrame.getInstance(), ex, "Erreur", JOptionPane.ERROR_MESSAGE);
+            }finally{
+                startButton.setEnabled(true);
             }
         });
         
