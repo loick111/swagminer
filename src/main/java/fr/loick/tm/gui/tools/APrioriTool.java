@@ -111,6 +111,9 @@ public class APrioriTool extends ProjectTool{
             try {
                 WordsExporter we = new WordsExporter(new File(project.getName() + "/words_" + minFreq + ".ap"), project.getDico());
                 FileExporter<Integer> fe = new FileExporter<>(new File(project.getName() + "/int_" + minFreq + ".ap"));
+                
+                apriori.addExporter(fe);
+                apriori.addExporter(we);
 
                 System.out.println("==== Lancement d'APriori ====");
                 apriori.perform();
