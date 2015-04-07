@@ -5,7 +5,7 @@
  */
 package fr.loick.tm.gui;
 
-import java.awt.HeadlessException;
+import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
@@ -27,7 +27,9 @@ public class MainFrame extends JFrame{
         add(tabbedPane);
         
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        
+
+        setMinimumSize(new Dimension(500,500));
+
         setLocationRelativeTo(null);
     }
     
