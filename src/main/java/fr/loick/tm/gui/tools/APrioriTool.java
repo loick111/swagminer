@@ -12,14 +12,19 @@ import fr.loick.tm.apriori.WordsExporter;
 import fr.loick.tm.gui.MainFrame;
 import fr.loick.tm.gui.model.Project;
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 
 /**
@@ -28,10 +33,28 @@ import javax.swing.SpinnerNumberModel;
  */
 public class APrioriTool extends ProjectTool{
     final private Project project;
+    private Thread aprioriThread;
 
     public APrioriTool(Project project) {
         this.project = project;
         form();
+        console();
+    }
+    
+    private void console(){
+        final JTextArea area = new JTextArea();
+        area.setForeground(Color.GRAY);
+        area.setFont(area.getFont().deriveFont(Font.BOLD));
+        
+        area.setEditable(false);
+        add(area, BorderLayout.CENTER);
+        
+        System.setOut(new PrintStream(new OutputStream() {
+            @Override
+            public void write(int b) throws IOException {
+                area.append((char)(b) + "");
+            }
+        }));
     }
     
     private void form(){
@@ -49,34 +72,39 @@ public class APrioriTool extends ProjectTool{
             if(!loadAPriori((double) minFreq.getValue())){
                 launchAPriori((double) minFreq.getValue());
             }
-            loadAPriori((double) minFreq.getValue());
         });
         
         add(panel, BorderLayout.NORTH);
     }
     
     private void launchAPriori(double minFreq){
-        APriori<Integer> apriori = new APriori<>(new TransDB(new File(project.getName() + "/tweets.trans")),  minFreq, (a, b) -> {
-            if(a == null)
-                return -1;
-            
-            if(b == null)
-                return 1;
-            
-            return a - b;
+        aprioriThread = new Thread(() -> {
+            APriori<Integer> apriori = new APriori<>(new TransDB(new File(project.getName() + "/tweets.trans")),  minFreq, (a, b) -> {
+                if(a == null)
+                    return -1;
+
+                if(b == null)
+                    return 1;
+
+                return a - b;
+            });
+
+            try {
+                WordsExporter we = new WordsExporter(new File(project.getName() + "/words_" + minFreq + ".ap"), project.getDico());
+                FileExporter<Integer> fe = new FileExporter<>(new File(project.getName() + "/int_" + minFreq + ".ap"));
+
+                System.out.println("==== Lancement d'APriori ====");
+                apriori.perform();
+                System.out.println("==== Fin APriori ====");
+
+                we.close();
+                fe.close();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(MainFrame.getInstance(), ex, "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
         });
         
-        try {
-            WordsExporter we = new WordsExporter(new File(project.getName() + "/words_" + minFreq + ".ap"), project.getDico());
-            FileExporter<Integer> fe = new FileExporter<>(new File(project.getName() + "/int_" + minFreq + ".ap"));
-            
-            apriori.perform();
-            
-            we.close();
-            fe.close();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(MainFrame.getInstance(), ex, "Erreur", JOptionPane.ERROR_MESSAGE);
-        }
+        aprioriThread.start();
     }
     
     private boolean loadAPriori(double minFreq){
