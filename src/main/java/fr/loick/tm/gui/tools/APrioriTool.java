@@ -34,6 +34,8 @@ import javax.swing.SpinnerNumberModel;
 public class APrioriTool extends ProjectTool{
     final private Project project;
     private Thread aprioriThread;
+    private PrintStream consoleStream;
+    private JTextArea console;
 
     public APrioriTool(Project project) {
         this.project = project;
@@ -42,19 +44,24 @@ public class APrioriTool extends ProjectTool{
     }
     
     private void console(){
-        final JTextArea area = new JTextArea();
-        area.setForeground(Color.GRAY);
-        area.setFont(area.getFont().deriveFont(Font.BOLD));
+        console = new JTextArea();
+        console.setForeground(Color.GRAY);
+        console.setFont(console.getFont().deriveFont(Font.BOLD));
         
-        area.setEditable(false);
-        add(area, BorderLayout.CENTER);
+        console.setEditable(false);
+        add(console, BorderLayout.CENTER);
         
-        System.setOut(new PrintStream(new OutputStream() {
+        consoleStream = new PrintStream(new OutputStream() {
             @Override
             public void write(int b) throws IOException {
-                area.append((char)(b) + "");
+                console.append((char)(b) + "");
             }
-        }));
+        });
+    }
+    
+    public void redirectOut(){
+        console.setText("");
+        System.setOut(consoleStream);
     }
     
     private void form(){
@@ -69,10 +76,22 @@ public class APrioriTool extends ProjectTool{
         JButton button = new JButton("Afficher");
         panel.add(button);
         button.addActionListener((e) -> {
+            redirectOut();
             if(!loadAPriori((double) minFreq.getValue())){
                 launchAPriori((double) minFreq.getValue());
             }
         });
+        
+        JButton stop = new JButton("Stop");
+        stop.addActionListener((e) -> {
+            if(aprioriThread != null && !aprioriThread.isInterrupted()){
+                aprioriThread.interrupt();
+                System.out.println("\n/!\\ APriori arrete ! /!\\");
+            }
+            
+            aprioriThread = null;
+        });
+        panel.add(stop);
         
         add(panel, BorderLayout.NORTH);
     }
