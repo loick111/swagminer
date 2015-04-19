@@ -9,23 +9,16 @@ import fr.loick.tm.apriori.APriori;
 import fr.loick.tm.apriori.FileExporter;
 import fr.loick.tm.apriori.TransDB;
 import fr.loick.tm.apriori.WordsExporter;
+import fr.loick.tm.fetch.Cleaner;
 import fr.loick.tm.gui.MainFrame;
 import fr.loick.tm.gui.model.Project;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
+
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.JTextArea;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.*;
 
 /**
  *
@@ -78,18 +71,53 @@ public class APrioriTool extends ProjectTool{
         panel.add(startButton);
         startButton.addActionListener((e) -> {
             redirectOut();
+
             if(!loadAPriori((double) minFreq.getValue())){
-                launchAPriori((double) minFreq.getValue());
+                if (Cleaner.getINSTANCE().isCleaned()){
+                    JDialog box = new JDialog(MainFrame.getInstance());
+
+                    box.setTitle("Cleaned ?");
+                    box.setModal(true);
+
+                    JPanel form = new JPanel(new GridLayout(0, 2));
+                    box.add(form, BorderLayout.CENTER);
+
+                    form.add(new JLabel("Utilisé le fichier clean ?"));
+
+                    JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+                    box.add(buttons, BorderLayout.SOUTH);
+
+                    JButton okButton = new JButton("Oui");
+                    JButton noButton = new JButton("Non");
+                    okButton.addActionListener(e1 -> {
+                        launchAPriori((double) minFreq.getValue(),"cleaned_tweets.csv");
+                        box.dispose();
+                    });
+
+                    noButton.addActionListener(e2 -> {
+                        launchAPriori((double) minFreq.getValue(),"tweets.csv");
+                        box.dispose();
+                    });
+
+                    buttons.add(okButton);
+                    buttons.add(noButton);
+
+                    box.pack();
+                    box.setLocationRelativeTo(MainFrame.getInstance());
+                    box.setVisible(true);
+                }else
+                    launchAPriori((double) minFreq.getValue(),"tweets.csv");
+
             }
         });
         
         add(panel, BorderLayout.NORTH);
     }
     
-    private void launchAPriori(double minFreq){
+    private void launchAPriori(double minFreq,String file){
         startButton.setEnabled(false);
         aprioriThread = new Thread(() -> {
-            APriori<Integer> apriori = new APriori<>(new TransDB(new File(project.getName() + "/tweets.trans")),  minFreq, (a, b) -> {
+            APriori<Integer> apriori = new APriori<>(new TransDB(new File(project.getName() + "/"+file)),  minFreq, (a, b) -> {
                 if(a == null)
                     return -1;
 
