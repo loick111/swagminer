@@ -7,6 +7,7 @@ package fr.loick.tm.gui;
 
 import fr.loick.tm.gui.model.Project;
 import fr.loick.tm.gui.tools.APrioriTool;
+import fr.loick.tm.gui.tools.AssocTool;
 import fr.loick.tm.gui.tools.CleanerTool;
 import fr.loick.tm.gui.tools.ProjectTool;
 import fr.loick.tm.gui.tools.TweetList;
@@ -31,6 +32,7 @@ public class ProjectGui extends JPanel{
         addTool(new TweetList(project));
         addTool(new APrioriTool(project));
         addTool(new CleanerTool(project));
+        addTool(new AssocTool(project));
     }
 
     public Project getProject() {
