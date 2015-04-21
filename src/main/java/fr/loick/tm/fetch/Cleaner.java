@@ -90,7 +90,7 @@ public class Cleaner {
 
     public String getWords(){
         BufferedReader br = null;
-        String word = null;
+        String word = "";
         try {
             br = new BufferedReader(new FileReader(blackList));
             for (String line; (line = br.readLine()) != null;){

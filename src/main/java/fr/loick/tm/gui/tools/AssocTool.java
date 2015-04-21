@@ -151,10 +151,10 @@ public class AssocTool extends ProjectTool{
                 filterText.setSize(100,50);
                 JButton buttonfilter = new JButton("Filtrer");
                 JPanel panel2 = new JPanel();
-                panel2.add(filterText, BorderLayout.NORTH);
-                panel2.add(buttonfilter,BorderLayout.NORTH);
+                panel2.setLayout(new BoxLayout(panel2, BoxLayout.LINE_AXIS));
+                panel2.add(filterText);
+                panel2.add(buttonfilter);
                 add(panel2, BorderLayout.SOUTH);
-
 
                 buttonfilter.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
