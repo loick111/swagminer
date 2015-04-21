@@ -14,6 +14,7 @@ import fr.loick.tm.util.Strings;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -143,8 +144,28 @@ public class AssocTool extends ProjectTool{
                 }
                 
                 table.setModel(new AssocTable(list));
-                RowSorter<AssocTable> sorter = new TableRowSorter<AssocTable>(new AssocTable(list));
+                TableRowSorter<AssocTable> sorter = new TableRowSorter<AssocTable>(new AssocTable(list));
                 table.setRowSorter(sorter);
+
+                final JTextField filterText = new JTextField("A");
+                filterText.setSize(100,50);
+                JButton buttonfilter = new JButton("Filtrer");
+                JPanel panel2 = new JPanel();
+                panel2.setLayout(new BoxLayout(panel2, BoxLayout.LINE_AXIS));
+                panel2.add(filterText);
+                panel2.add(buttonfilter);
+                add(panel2, BorderLayout.SOUTH);
+
+                buttonfilter.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        String text = filterText.getText();
+                        if (text.length() == 0) {
+                            sorter.setRowFilter(null);
+                        } else {
+                            sorter.setRowFilter(RowFilter.regexFilter(text));
+                        }
+                    }
+                });
 
             }catch(IOException ex){
                 JOptionPane.showMessageDialog(null, ex, "Erreur IO", JOptionPane.ERROR_MESSAGE);

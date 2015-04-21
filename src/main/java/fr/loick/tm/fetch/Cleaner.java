@@ -88,18 +88,9 @@ public class Cleaner {
         }
     }
 
-    @Override
-    public String toString() {
-        return "Cleaner{" +
-                "blackList=" + blackList +
-                ", cleaned=" + cleaned +
-                ", cvsProject=" + cvsProject +
-                '}';
-    }
-
     public String getWords(){
         BufferedReader br = null;
-        String word = null;
+        String word = "";
         try {
             br = new BufferedReader(new FileReader(blackList));
             for (String line; (line = br.readLine()) != null;){
@@ -120,7 +111,6 @@ public class Cleaner {
     }
 
     public boolean isCleaned(){
-        System.out.println(cleaned);
         return cleaned || cvsProject.exists();
     }
 }
