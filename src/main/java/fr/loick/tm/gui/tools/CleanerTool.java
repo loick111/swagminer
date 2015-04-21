@@ -46,7 +46,7 @@ public class CleanerTool extends ProjectTool {
         buttonGrp.add(modifyW);
         add(BorderLayout.NORTH,buttonGrp);
         console.append("Aucune action");
-        Cleaner cl = Cleaner.getINSTANCE();
+        Cleaner cl = new Cleaner(project.getName());
 
         startCl.addActionListener(e -> {
             try {

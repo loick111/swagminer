@@ -21,10 +21,10 @@ public class Cleaner {
     private boolean cleaned = false;
     File cvsProject = null;
 
-    private static Cleaner INSTANCE = null;
 
-    private Cleaner(File blackList) {
-        this.blackList = blackList;
+    public Cleaner(String name) {
+        this.blackList = new File("motinutile.txt");
+        cvsProject = new File(name+"/clean_tweets.csv");
     }
 
     public boolean clean(String name) throws FileNotFoundException {
@@ -88,6 +88,15 @@ public class Cleaner {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Cleaner{" +
+                "blackList=" + blackList +
+                ", cleaned=" + cleaned +
+                ", cvsProject=" + cvsProject +
+                '}';
+    }
+
     public String getWords(){
         BufferedReader br = null;
         String word = null;
@@ -111,13 +120,7 @@ public class Cleaner {
     }
 
     public boolean isCleaned(){
-        return (cleaned || cvsProject.exists());
-    }
-
-    public static Cleaner getINSTANCE() {
-        if (INSTANCE == null)
-        { 	INSTANCE = new Cleaner(new File("motinutile.txt"));
-        }
-        return INSTANCE;
+        System.out.println(cleaned);
+        return cleaned || cvsProject.exists();
     }
 }

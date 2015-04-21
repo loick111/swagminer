@@ -6,11 +6,8 @@
 package fr.loick.tm.gui;
 
 import fr.loick.tm.gui.model.Project;
-import fr.loick.tm.gui.tools.APrioriTool;
-import fr.loick.tm.gui.tools.AssocTool;
-import fr.loick.tm.gui.tools.CleanerTool;
-import fr.loick.tm.gui.tools.ProjectTool;
-import fr.loick.tm.gui.tools.TweetList;
+import fr.loick.tm.gui.tools.*;
+
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -33,6 +30,7 @@ public class ProjectGui extends JPanel{
         addTool(new APrioriTool(project));
         addTool(new CleanerTool(project));
         addTool(new AssocTool(project));
+        addTool(new LiftTool(project));
     }
 
     public Project getProject() {

@@ -24,18 +24,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.JTable;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -152,6 +143,9 @@ public class AssocTool extends ProjectTool{
                 }
                 
                 table.setModel(new AssocTable(list));
+                RowSorter<AssocTable> sorter = new TableRowSorter<AssocTable>(new AssocTable(list));
+                table.setRowSorter(sorter);
+
             }catch(IOException ex){
                 JOptionPane.showMessageDialog(null, ex, "Erreur IO", JOptionPane.ERROR_MESSAGE);
                 return;

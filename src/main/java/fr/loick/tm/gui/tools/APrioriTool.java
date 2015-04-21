@@ -60,6 +60,7 @@ public class APrioriTool extends ProjectTool{
     
     private void form(){
         JPanel panel = new JPanel();
+        Cleaner cl = new Cleaner(project.getName());
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         
         panel.add(new JLabel("MinFreq"));
@@ -73,7 +74,8 @@ public class APrioriTool extends ProjectTool{
             redirectOut();
 
             if(!loadAPriori((double) minFreq.getValue())){
-                if (Cleaner.getINSTANCE().isCleaned()){
+                System.out.println(cl);
+                if (cl.isCleaned()){
                     JDialog box = new JDialog(MainFrame.getInstance());
 
                     box.setTitle("Cleaned ?");
@@ -90,12 +92,12 @@ public class APrioriTool extends ProjectTool{
                     JButton okButton = new JButton("Oui");
                     JButton noButton = new JButton("Non");
                     okButton.addActionListener(e1 -> {
-                        launchAPriori((double) minFreq.getValue(),"cleaned_tweets.csv");
+                        launchAPriori((double) minFreq.getValue(),"cleaned_tweets.trans");
                         box.dispose();
                     });
 
                     noButton.addActionListener(e2 -> {
-                        launchAPriori((double) minFreq.getValue(),"tweets.csv");
+                        launchAPriori((double) minFreq.getValue(),"tweets.trans");
                         box.dispose();
                     });
 
@@ -106,7 +108,7 @@ public class APrioriTool extends ProjectTool{
                     box.setLocationRelativeTo(MainFrame.getInstance());
                     box.setVisible(true);
                 }else
-                    launchAPriori((double) minFreq.getValue(),"tweets.csv");
+                    launchAPriori((double) minFreq.getValue(),"tweets.trans");
 
             }
         });

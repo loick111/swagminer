@@ -15,10 +15,13 @@ public class ComputeLift {
     private BufferedReader brAp;
     private BufferedWriter bwOut;
 
+    private Double minLift;
 
-    public ComputeLift(File assocFile, File apFile, File outFile) {
+
+    public ComputeLift(File assocFile, File apFile, File outFile, Double minLift) {
         try {
             this.apFile = apFile;
+            this.minLift = minLift;
             brAssoc = new BufferedReader(new FileReader(assocFile));
             bwOut = new BufferedWriter(new FileWriter(outFile));
         } catch (IOException e) {
@@ -31,12 +34,10 @@ public class ComputeLift {
 
         String line;
         String line2;
-        int count = 0;
 
         try {
 
             while ((line = brAssoc.readLine()) != null){
-                if (++count % 100 == 0) System.out.println(count);
 
                 brAp = new BufferedReader(new FileReader(apFile));
                 String[] content = Strings.split(line,"->");
@@ -53,7 +54,7 @@ public class ComputeLift {
                         double freq = Double.parseDouble(tmp[1]);
                         double lift;
                         lift = conf / freq;
-                        if (lift > 1){
+                        if (lift > minLift){
                             bwOut.write(content[0]+"->" + cont[0] + ";" + lift);
                             bwOut.newLine();
                             bwOut.flush();
